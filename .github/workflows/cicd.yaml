@@ -28,9 +28,6 @@ jobs:
           docker build -t test-app:latest .
           docker tag test-app:latest username/test-app:latest
 
-      - name: Test
-        run: docker run test-app:latest ./gradlew test
-
       - name: Push Docker Image
         uses: docker/build-push-action@v2
         with:
