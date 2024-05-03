@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Build Docker Image
+        run: |
+          docker build -t test-app:latest .
+          docker tag test-app:latest username/test-app:latest
+
+      - name: Test
+        run: docker run test-app:latest ./gradlew test
+
+      - name: Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: username/test-app
+          tag_with_ref: true
+
+      - name: Deploy to Kubernetes
+        uses: appleboy/kubectl-action@master
+        with:
+          commands: apply -f backend.yaml
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
