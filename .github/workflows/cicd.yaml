@@ -37,9 +37,8 @@ jobs:
           repository: username/test-app
           tag_with_ref: true
 
-      - name: Trigger deploy
-        uses: phamquyhai/kubernetes-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      - uses: danielr1996/kubectl-action@1.0.0
+        name: Deploy
         with:
-          args: apply backend.yaml
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          args: apply -f backend.yaml
