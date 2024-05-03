@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ""
+          image: "galaxian123/test-app:latest"
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
