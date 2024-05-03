@@ -21,9 +21,7 @@ jobs:
 
       - name: Build with Gradle
 
-        run: mkdir -p /root/.gradle && \
-          echo -e "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties && \
-          chmod +x gradlew && ./gradlew build -x test
+        run: chmod +x gradlew && ./gradlew build -x test
 
       - name: Build Docker Image
         run: |
