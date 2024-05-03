@@ -49,4 +49,4 @@ jobs:
         name: Deploy
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
-          args: apply -f backend.yaml
+          args: apply -f k8s/backend.yaml
