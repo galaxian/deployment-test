@@ -37,9 +37,9 @@ jobs:
           repository: username/test-app
           tag_with_ref: true
 
-      - name: Deploy to Kubernetes
-        uses: appleboy/kubectl-action@master
-        with:
-          commands: apply -f backend.yaml
+      - name: Trigger deploy
+        uses: Consensys/kubernetes-action@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: apply backend.yaml
